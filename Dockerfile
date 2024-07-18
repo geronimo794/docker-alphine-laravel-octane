@@ -47,6 +47,8 @@ RUN apk add --no-cache \
 # Add specific dev packages based on your extension (e.g., libmcrypt-dev)
 RUN pecl install openswoole
 
+RUN apk add --no-cache php83-pcntl php83-posix
+
 # Configure PHP-FPM
 ENV PHP_INI_DIR /etc/php83
 COPY config/php.ini ${PHP_INI_DIR}/conf.d/custom.ini
@@ -70,4 +72,4 @@ EXPOSE 8080
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
 
 # Configure a healthcheck to validate that everything is up&running
-HEALTHCHECK --timeout=10s CMD curl --silent --fail http://127.0.0.1:8080/fpm-ping || exit 1
+HEALTHCHECK --timeout=10s CMD curl --silent --fail http://127.0.0.1:8080/ || exit 1

@@ -48,7 +48,7 @@ services:
     image: node:12.16.1-slim
     working_dir: /app
     volumes:
-      - ./source/public/:/app/
+      - ./source/:/app/
     command: bash -c "npm install"
     # Limit default logging container
     logging:
