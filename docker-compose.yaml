@@ -1,0 +1,59 @@
+version: '3.5'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      # Source code file
+      - ./source/:/var/www/html/
+    depends_on:
+      - composer_installation
+      - npm_installation
+    ports:
+      - target: 8080
+        published: 8080
+        mode: ingress
+    # Limit default logging container
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+        mode: non-blocking
+
+
+  #######################
+  # Install depedencies #
+  #######################
+  # Install composer
+  composer_installation:
+    # container_name: composer_installation
+    image: composer
+    volumes:
+      - ./source/:/app/
+    command: composer install --ignore-platform-reqs
+    # Limit default logging container
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+        mode: non-blocking
+
+  # Install npm
+  npm_installation:
+    # container_name: npm_installation
+    image: node:12.16.1-slim
+    working_dir: /app
+    volumes:
+      - ./source/public/:/app/
+    command: bash -c "npm install"
+    # Limit default logging container
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+        mode: non-blocking
