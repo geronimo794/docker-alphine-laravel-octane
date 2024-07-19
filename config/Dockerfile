@@ -50,7 +50,7 @@ RUN pecl install openswoole
 RUN apk add --no-cache php83-pcntl php83-posix
 
 # Configure PHP-FPM
-ENV PHP_INI_DIR /etc/php83
+ENV PHP_INI_DIR=/etc/php83
 COPY config/php.ini ${PHP_INI_DIR}/conf.d/custom.ini
 
 # Configure supervisord
