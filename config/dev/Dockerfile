@@ -82,6 +82,6 @@ USER root
 RUN apk add --no-cache \
   nodejs npm
 
-# RUN npm install --save-dev chokidar
+USER nobody
 
 
